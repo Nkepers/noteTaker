@@ -12,7 +12,7 @@ const writeFileAsync = util.promisify(fs.writeFile);
 
 // Deploy server
 const app = express();
-const port = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -62,3 +62,23 @@ app.delete('/api/notes/:id', function(req, res) {
         res.send('Note saved successfully!');
     })
 })
+
+
+// Routes for HTML
+app.get('/notes', function(req, res) {
+    res.sendFile(path.join(__dirname, './develop/public/notes.html'));
+});
+
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, './develop/public/index.html'));
+});
+
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, './develop/public/index.html'));
+});
+
+
+// Server is listening
+app.listen(PORT, function() {
+    console.log('App is listening on PORT:' + PORT);
+});
