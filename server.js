@@ -18,12 +18,12 @@ app.use(express.json());
 
 
 // Static middleware
-app.use(express.static('/public'));
+app.use(express.static('public'));
 
 
 // "GET" API Route
 app.get('/api/notes', function(req, res) {
-    readFileAsync('./db/db.json', 'utf8').then(function(data) {
+    fs.readFile('./db/db.json').then(function(data) {
         notes = [].concat.apply(JSON.parse(data))
         res.json(notes);
     })
@@ -33,7 +33,7 @@ app.get('/api/notes', function(req, res) {
 //  "POST" API Route
 app.post('/api/notes', function(req, res) {
     const note = req.body;
-    readFileAsync('./db/db.json', 'utf8').then(function(data) {
+    fs.readFile('./db/db.json').then(function(data) {
         const notes = [].concat(JSON.parse(data));
         note.id = notes.length + 1
         notes.push(note);
@@ -48,7 +48,7 @@ app.post('/api/notes', function(req, res) {
 // "DELETE" API Route
 app.delete('/api/notes/:id', function(req, res) {
     const noteDelete = parseInt(req.params.id);
-    readFileAsync('./db/db.json', 'utf8').then(function(data) {
+    readFileAsync('./db/db.json').then(function(data) {
         const notes = [].concat(JSON.parse(data));
         const newNote = []
         for (let i = 0; i < notes.length; i++) {
